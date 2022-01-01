@@ -36,6 +36,10 @@ class LongSimple:
 							time_in_force='gtc'
 						)
 						self.holding = True
+						self.trades.append({
+							'Action': 'Buy',
+							'Time': datetime.now()
+						})
 				else:
 					if self.holding:
 						self.alpaca.submit_order(
@@ -46,6 +50,10 @@ class LongSimple:
 							time_in_force='gtc'
 						)
 						self.holding = False
+						self.trades.append({
+							'Action': 'Sell',
+							'Time': datetime.now()
+						})
 			else:
 				# Cancel existing orders
 				orders = self.alpaca.list_orders(status="open")
