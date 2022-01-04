@@ -1,4 +1,5 @@
-import datetime
+from datetime import datetime
+from decimal import Decimal
 import threading
 from config import *
 
@@ -14,18 +15,20 @@ class LongSimple:
 		self.ticker = 'AAPL'
 
 	def get_mov_avg(self, ticker):
-		barset = self.alpaca.get_barset(ticker, '5Min')
+		barset = self.alpaca.get_barset(ticker, '5Min')._raw
+		prices = barset[self.ticker]
 		total = 0
-		for entity in barset:
+		for entity in prices:
 			total += entity['o']
-		return total / len(barset)
+		return total / len(prices)
 
-	def run(self):
+	def trade_on_mov_avg(self):
 		while True:
 			clock = self.alpaca.get_clock()
 			if clock.is_open:
 				barset = self.alpaca.get_barset(self.ticker, 'minute', limit=1)
-				price = barset[0].o
+				barset = barset._raw
+				price = barset[self.ticker][0]['c']
 				if price <= self.get_mov_avg(self.ticker):
 					if not self.holding:
 						self.alpaca.submit_order(
@@ -63,8 +66,25 @@ class LongSimple:
 			
 			# wait a bit
 			time.sleep(5)
-		
 
+	def update(self):
+		while(True):
+			time.sleep(10)
+			if self.holding:
+				print("Holding 6 shares of AAPL")
+			else:
+				print("Not holding AAPL")
+			account = self.alpaca.get_account()._raw
+			diff = Decimal(account['portfolio_value']) - 100000
+			percent_change = diff / 100000 * 100
+			print(f"Account Value Change: {percent_change}", end='\n\n')
+
+	def run(self):
+		mov_avg_thread = threading.Thread(target=self.trade_on_mov_avg)
+		mov_avg_thread.start()
+		update_thread = threading.Thread(target=self.update)
+		update_thread.start()
+		
 
 test = LongSimple()
 test.run()
