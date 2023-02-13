@@ -25,7 +25,8 @@ class Preprocess:
             self.raw_data.append(day_info)
 
     
-    def mark_data
+    def mark_data(self):
+        
 
 
 test = Preprocess()
