@@ -1,2 +1,7 @@
-/alpaca/config.py
+config.py
 *.csv
+__pycache__/
+.idea/
+venv/
+env/
+examples/
