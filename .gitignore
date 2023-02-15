@@ -1,4 +1,4 @@
-config.py
+*config.py
 *.csv
 __pycache__/
 .idea/

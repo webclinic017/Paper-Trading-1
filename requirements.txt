@@ -1,0 +1,6 @@
+requests
+alpaca-py
+alpaca-trade-api
+numpy
+pandas
+backtrader
