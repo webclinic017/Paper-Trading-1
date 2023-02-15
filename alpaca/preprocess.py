@@ -8,7 +8,9 @@ from alpaca.data.timeframe import TimeFrame
 
 def get_data(ticker, year=2018):
     stock_client = StockHistoricalDataClient(API_KEY, SECRET_KEY)
-    request_params = StockBarsRequest(symbol_or_symbols=[ticker])
+    request_params = StockBarsRequest(symbol_or_symbols=[ticker],
+                                        start=
+                                        )
     bars = stock_client.get_stock_bars(request_params)
     return bars
 

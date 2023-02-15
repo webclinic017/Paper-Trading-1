@@ -1,10 +1,15 @@
 import datetime
 import backtrader as bt
-from btstrategies import MovingAverage
+from btstrategy_simplema import MovingAverage
+
+TICKER = "F"
 
 cerebro = bt.Cerebro()
 
-data = bt.feeds.YahooFinanceCSVData(dataname="AAPL.csv")
+cerebro.broker.setcommission(commission=0.001)
+cerebro.addsizer(bt.sizers.SizerFix, stake=20)
+
+data = bt.feeds.YahooFinanceCSVData(dataname=f"Yahoo-Data/{TICKER}.csv")
 cerebro.adddata(data)
 
 cerebro.addstrategy(MovingAverage)
