@@ -2,6 +2,7 @@ import datetime
 import backtrader as bt
 from btstrategy_simplema import MovingAverage
 from btstrategy_buyhold import BuyAndHold
+from btstrategy_random import Random
 
 TICKER = "F"
 STRATEGY = MovingAverage
@@ -9,8 +10,9 @@ STRATEGY = MovingAverage
 if __name__ == "__main__":
 
     strategies = {
+        "You Selected": STRATEGY,
         "Buy and Hold": BuyAndHold,
-        "You Selected": STRATEGY
+        "Random": Random,
     }
 
     for strategy_name in strategies:
